@@ -131,4 +131,8 @@ python main.py
 
 ---
 
+### 실행 화면
+
+<img src="https://github.com/user-attachments/assets/4879949d-ba36-4b8b-b7fe-a7f95a272c7e" />
+
 
