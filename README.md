@@ -30,8 +30,98 @@ Project/
 ├── chat.py            # 텍스트 채팅 처리
 ├── file_transfer.py   # 이미지/비디오/파일 전송
 ├── vide능 
+```
+---
+
+## 커스텀 패킷 프로토콜 구조
+
+```text
+[ Type (4 bytes) ][ Payload Size (8 bytes) ][ Payload ]
+```
+```python
+HEADER_FMT = '!4sQ'
+```
+
+### 패킷 타입 (config.py)
+
+```python
+| `TYPE_VIDEO`      | JPEG 영상 프레임 |
+| `TYPE_AUDIO`      | PCM 오디오 데이터 |
+| `TYPE_IMAGE`      | 이미지 파일      |
+| `TYPE_FILE_HDR`   | 파일 메타데이터    |
+| `TYPE_FILE_CHUNK` | 파일 데이터      |
+| `TYPE_FILE_END`   | 파일 종료       |
+| `TYPE_TEXT`       | 채팅 메시지      |
+```
 
 ---
+
+## 오디오 스트리밍 방식
+
+* PyAudio 기반 마이크 캡처
+* PCM 16bit / Mono / 16kHz
+* Chunk 단위 TCP 전송
+* 수신 즉시 재생 (Low Latency)
+
+---
+
+## 📷 비디오 스트리밍 방식
+
+* 실시간 스트리밍
+* OpenCV 캡처
+* JPEG 인코딩
+* 프레임 단위 전송
+* 파일 전송
+* ffmpeg 기반 H.263 인코딩
+* 파일 크기 비교
+* PSNR / SSIM 계산
+
+```python
+cv2.imencode('.jpg', frame, [cv2.IMWRITE_JPEG_QUALITY, Q])
+```
+
+---
+
+### 1. 필수 라이브러리 설치
+
+```bash
+pip install opencv-python pyaudio numpy
+```
+
+---
+
+### 2. 서버 주소 설정
+
+`config.py`
+
+```python
+DEFAULT_SERVER_HOST = '서버 IP'
+SERVER_PORT = 9999
+```
+
+---
+
+### 3. 서버 실행
+
+```bash
+python server.py
+```
+
+---
+
+### 3. 클라이언 실행
+
+```bash
+python main.py
+```
+동일한 네트워크 환경에서 config.py의 서버 IP를 맞춰야 함.
+---
+
+## 주의사항
+
+* 두 클라이언트가 동일한 네트워크 환경에 접속해야 통신이 가능
+* 하나의 PC에서 2개 클라이언트 실행 시 카메라 충돌 발생 가능
+
 
 ### 실행 화면
 
