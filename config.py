@@ -5,7 +5,7 @@ import shutil
 # -----------------------
 # 기본 설정
 # -----------------------
-DEFAULT_SERVER_HOST = '192.168.50.176'
+DEFAULT_SERVER_HOST = 'Your IP Adress'
 SERVER_PORT = 9999
 
 # -----------------------
@@ -31,5 +31,6 @@ TYPE_AUDIO      = b'AUD0'
 # -----------------------
 def ffmpeg_available():
     return shutil.which("ffmpeg") is not None
+
 
 
